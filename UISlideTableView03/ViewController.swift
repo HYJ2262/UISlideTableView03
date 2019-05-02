@@ -8,11 +8,35 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var myslider: UISlider!
+    @IBOutlet weak var myLable: UILabel!
+    @IBOutlet weak var myTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        myTableView.delegate = self
+        myTableView.dataSource = self
+        
+        myLable.text = String(Int(myslider.value))
+    }
+
+    @IBAction func silderMove(_ sender: Any) {
+        myLable.text = String(Int(myslider.value))
+        myTableView.reloadData()
+    }
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RE", for: indexPath)
+        
+        cell.textLabel?.text = String(myslider.value)
+        return cell
     }
 
 
